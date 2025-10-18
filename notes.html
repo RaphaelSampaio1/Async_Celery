@@ -1,0 +1,58 @@
+<h1>Understanding Async with Celery</h1>
+
+Async is a multi task process :
+
+Imagine :
+
+- You have 3 tasks to do:  
+  1. Send an email (takes 5 seconds)  
+  2. Process a video (takes 5 seconds)  
+  3. Generate a report (takes 5 seconds)
+
+### The connection:
+
+**Async** = The concept ("don't wait")  
+**Multitasking** = How it's achieved (doing multiple things at once)
+
+### How Celery does it:
+
+# Main process (your web app):
+task1 = send_email.delay()      # Send to worker 1
+task2 = process_video.delay()   # Send to worker 2
+task3 = generate_report.delay() # Send to worker 3
+
+print("All tasks started!")  # Prints immediately
+# All 3 tasks run at the SAME TIME in different workers
+
+### Visual:
+
+**Without async (one thing at a time):**
+```
+Main: [Task 1]----[Task 2]----[Task 3]---- (15 seconds)
+```
+
+**With async (multitasking):**
+```
+Main:    [sends tasks]---- (instant)
+Worker 1: [Task 1]----
+Worker 2: [Task 2]----
+Worker 3: [Task 3]----
+         (all done in 5 seconds!)
+```
+
+
+
+----------------------------------------------------------
+
+To run the "docker-compose up", first open the Docker Desktop application.
+
+Then, open a terminal in the folder where the "docker-compose.yml" file is located and run the command:
+docker-compose up
+
+---
+Create the Dockerfile > Requirements.txt > add the libs
+then run:
+docker compose up --build
+
+
+Do this for each task created

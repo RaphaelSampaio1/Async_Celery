@@ -1,0 +1,4 @@
+docker-compose.yml -> Containter
+worker.py -> Creation of function and using the CELERY (Async)
+client.py -> Main
+.env -> Credentials
